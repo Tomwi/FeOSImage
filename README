@@ -1,0 +1,1 @@
+Move libpng and zlib to $FEOSSDK/userlib/ before compiling them
