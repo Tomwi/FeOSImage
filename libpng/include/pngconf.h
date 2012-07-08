@@ -298,7 +298,7 @@
 
 #  define PNG_EXPORTA(ordinal, type, name, args, attributes)\
       PNG_FUNCTION(PNG_EXPORT_TYPE(type),(PNGAPI name),PNGARG(args), \
-        extern attributes)
+        extern FEOS_EXPORT attributes)
 #endif
 
 /* ANSI-C (C90) does not permit a macro to be invoked with an empty argument,
