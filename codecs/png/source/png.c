@@ -16,9 +16,8 @@ int bit_depth, color_type, interlace_type;
 
 int iopenImage(char* name, IMAGE_INFO* inf)
 {
-	fp = fopen(name, "rb");
-	if(!fp)
-		return false;
+	if(!(fp = fopen(name, "rb")))
+		return IMAGE_FILE_ERR;
 	png_byte keyWord[4];
 	if(fread(keyWord, 1, 4, fp)!=4)
 		goto error;

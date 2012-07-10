@@ -9,12 +9,43 @@
 
 IMAGE image;
 
+char* extensions[2] = {
+	"jpeg",
+	"png",
+};
+
+char* supported[2] = {
+	".jpg .jpeg",
+	".png"
+};
+
+char* findCodec(char* file){
+	int length = strlen(file);
+	int i;
+	
+	for(i=(length-1); i>0; i--){
+		/* we probably hit the extension point */
+		if(file[i] == '.'){
+			int j;
+			for(j=0; j<2; j++){
+				if(strstr(supported[j], &file[i])){
+					return extensions[j];
+				}
+			}
+		}
+	}
+	return NULL;
+}
 /* Load the required module and call the iopen_Image function */
 int  openImage(char* file)
 {
 	instance_t mdl = NULL;
-	if(!image.iModule)
-		mdl = FeOS_LoadModule("png");
+	if(!image.iModule){
+		char* mod = findCodec(file);
+		if(!mod)
+			return 0;
+		mdl = FeOS_LoadModule(mod);
+	}
 	if(mdl) {
 #ifdef DEBUG
 		printf("module loaded\n");
