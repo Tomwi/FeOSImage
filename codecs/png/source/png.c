@@ -13,6 +13,7 @@ png_infop info_ptr;
 png_uint_32 width, height;
 int bit_depth, color_type, interlace_type;
 
+void RGB24_to_ARGB16(void* in, void* dest, int len);
 
 int iopenImage(char* name, IMAGE_INFO* inf)
 {
@@ -59,19 +60,11 @@ int idecodeImage(void* buffer)
 	int rowSz = (int)png_get_rowbytes(png_ptr, info_ptr);
 	row_pointer = malloc(rowSz);
 	int y;
-	for (y = 0; y < height; y++) {
+	for (y = 0; y < height; y++, buffer+=rowSz) {
 		png_read_rows(png_ptr, &row_pointer, NULL, 1);
-		int i;
-		for(i=0; i<width; i++) {
-			unsigned char* byteP = (unsigned char*)(row_pointer+i*3);
-			hword_t ARGB = (((byteP[2] >> 3)<<10) | ((byteP[1] >> 3)<<5) | (byteP[0] >> 3)) | BIT(15);
-			*(hword_t*)(row_pointer+i*2) = ARGB;
-		}
-		dmaCopy(row_pointer, buffer, width*2);
-		buffer+=width*2;
+		memcpy(buffer, row_pointer, rowSz);
 	}
 	free(row_pointer);
-
 	return 1;
 }
 

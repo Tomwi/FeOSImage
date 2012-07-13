@@ -3,6 +3,7 @@
 
 typedef struct{
 	int width, height, bpp;
+	char alphaChannel;	// alpha channel present?
 }IMAGE_INFO;
 
 typedef struct{
@@ -23,6 +24,6 @@ int  openImage(char*);
 int  decodeImage(void* outBuf);
 int  closeImage(void);
 
-void RGB24_to_ARGB16(void* buf, int len);
+void RGB24_to_ARGB16(void* src, void* dst, int len);
 
 #endif

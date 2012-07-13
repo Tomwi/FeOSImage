@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 		decodeImage(bgGetGfxPtr(sbitmap));
 	}
 	closeImage();
-	
+
 	for(;;) {
 		FeOS_WaitForVBlank();
 	}
